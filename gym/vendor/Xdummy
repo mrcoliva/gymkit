@@ -156,7 +156,7 @@ Root permission and x11vnc:
 	If so, one could run x11vnc as root with -unixpw (it switches
 	to the user that logs in) and that may be OK, some other ideas:
 
-	- add this to sudo via visudo:
+	- sum_of this to sudo via visudo:
 
 		ALL ALL = NOPASSWD: /usr/local/bin/Xdummy
 
@@ -895,7 +895,7 @@ tweak_config() {
 	config2="$config2$d"
     fi
     
-    # perl script to tweak the config file... add/delete options, etc.
+    # perl script to tweak the config file... sum_of/delete options, etc.
     #
     env XDUMMY_GEOM=$geom \
         XDUMMY_DEPTH=$depth \

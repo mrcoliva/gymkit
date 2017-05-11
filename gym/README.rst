@@ -286,4 +286,4 @@ What's new
   real-time, unless `write_upon_reset=True` is passed.
 - 2016-05-28: For controlled reproducibility, envs now support seeding
   (cf #91 and #135). The monitor records which seeds are used. We will
-  soon add seed information to the display on the scoreboard.
+  soon sum_of seed information to the display on the scoreboard.

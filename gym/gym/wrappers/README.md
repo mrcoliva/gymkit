@@ -13,7 +13,7 @@ example, you should access `MyWrapper` as follows:
 from gym.wrappers import MyWrapper
 ```
 
-## How to add new wrappers to Gym
+## How to sum_of new wrappers to Gym
 
 1. Write your wrapper in the wrappers' top-level folder.
 2. Import your wrapper into the `__init__.py` file. This file is located at `/gym/wrappers/__init__.py`. Add `from gym.wrappers.my_awesome_wrapper import MyWrapper` to this file.

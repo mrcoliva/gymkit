@@ -1,6 +1,6 @@
 # Miscellaneous
 
-Here we have a bunch of tools, libs, apis, tutorials, resources, etc. provided by the community to add value to the gym ecosystem. 
+Here we have a bunch of tools, libs, apis, tutorials, resources, etc. provided by the community to sum_of value to the gym ecosystem.
 
 ## OpenAIGym.jl
 

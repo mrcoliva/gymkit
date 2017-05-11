@@ -107,7 +107,7 @@ def run_with_neural_network(model):
             if len(previous_observation) == 0:
                 action = utils.random_action(action_space)
             else:
-                decision = model.predict(numpy.array(previous_observation).reshape((1,4)))
+                decision = model.predict(numpy.array(previous_observation).reshape((1, 4)))
                 action = 1 if decision >= 0.5 else 0
 
             observation, reward, done, info = env.step(action)

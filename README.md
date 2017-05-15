@@ -10,7 +10,9 @@ config = Config(name='Pendulum-v0')
 ```
 
 
-Then, create an `Arena` object. You can register `Agent`s to an `Arena` where they will be evaluated on the environment specified in the `Config` object.
+
+Then, create an `Arena` object.  
+You can register `Agent`s to an `Arena` where they will be evaluated on the environment specified in the `Config` object.  
 In this example, we create a `NeatAgent` which uses the 'Neuroevolution of Augmented Topologies' algorithm to evolve a phenotype (a neural network) which will be evaluated on the environment.
 ```python
 arena = Arena(config)
@@ -18,8 +20,9 @@ arena = Arena(config)
 agent = NeatAgent(elite_size=3)
 arena.register(agent)
 ```
-
-
+  
+  
+  
 To run the environment and evaluate all registered agents, call the `run` funtion on the arena.
 This funtion returns an `Evaluation` object, which holds information about the performance of each registered agent.
 ```python

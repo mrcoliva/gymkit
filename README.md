@@ -7,17 +7,20 @@ To evaluate an algorithm on an environment, use `main.py` as entry point.
 First, create a `Config` object and pass the name of the gym environment you want to use to the `name` agrument.
 ```python
 config = Config(name='Pendulum-v0')
-```
-
+```  
 
 
 Then, create an `Arena` object.  
 You can register `Agent`s to an `Arena` where they will be evaluated on the environment specified in the `Config` object.  
-In this example, we create a `NeatAgent` which uses the 'Neuroevolution of Augmented Topologies' algorithm to evolve a phenotype (a neural network) which will be evaluated on the environment.  
-*Note: `elite-size` specifies the number of fittest phenotype which will have a vote on the decision. E.g. an `elite-size` of 1 would result in a single neural network's output to be used to decide an action.*
+
 ```python
 arena = Arena(config)
+```  
 
+In this example, we create a `NeatAgent` which uses the 'Neuroevolution of Augmented Topologies' algorithm to evolve a phenotype (a neural network) which will be evaluated on the environment.  
+
+*Note: `elite-size` specifies the number of fittest phenotypes which will have a vote on the decision. E.g. an `elite-size` of 1 would result in a single neural network's output to be used to decide as the decision critieria.*
+```python
 agent = NeatAgent(elite_size=3)
 arena.register(agent)
 ```

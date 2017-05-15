@@ -1,7 +1,5 @@
-from gymkit.neuro_net import NeatAgent
 from gymkit.agent import Agent
 from collections import defaultdict
-from gymkit.config import Config
 
 
 class Arena(object):
@@ -85,12 +83,3 @@ class Arena(object):
                 self.process_finished_episode(agent, score)
 
         return evaluations
-
-
-if __name__ == '__main__':
-    config = Config(name='Pendulum-v0')
-    stadium = Arena(config)
-    agent = NeatAgent(elite_size=3)
-    stadium.register(agent)
-
-    evaluations = stadium.run()

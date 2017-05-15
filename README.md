@@ -2,23 +2,22 @@
 
 This repository is used as a playground to experiment with OpenAI Gym for the bachelor's thesis.
 
-All of my source files are contained in the `gymkit` directory.  
+All of my source files are contained in the `gymkit` module.  
 
 ---
 
 To evaluate an algorithm on an environment, use `main.py` as entry point.
 
-First, create a `Config` object and pass the name of the gym environment you want to use to the `name` agrument.
-```python
-config = Config(name='Pendulum-v0')
-```  
-
-
-Then, create an `Arena` object with the config you just created.
+First, you need an `Environment` class where you pass the name of the gym environment you want to use to the `name` agrument.
+If you need to customize properties of an `Environment`, like a custom `reward` evaluation function, create a subclass which passes the name of its respective gym environment to the superclass' initializer.  
+  
+  
+Next, initialze an `Arena` object with the environment class you wish to evaluate.  
+*Important: Don't pass an instance of the class, since `Arena` itself creates instances of `Environment`s when `Agent`s are registered.*
 You can register `Agent`s to an `Arena` where they will be evaluated on the environment specified in the `Config` object.  
 
 ```python
-arena = Arena(config)
+arena = Arena(mode='training', monitoring_enabled=True)
 ```  
 
 In this example, we create a `NeatAgent` which uses the 'Neuroevolution of Augmented Topologies' algorithm to evolve a phenotype (a neural network) which will be evaluated on the environment.  
@@ -32,7 +31,7 @@ arena.register(agent)
   
   
 To run the environment and evaluate all registered agents, call the `run` funtion on the arena.
-This funtion returns an `Evaluation` object, which holds information about the performance of each registered agent.
+This funtion returns an `Evaluation` object that holds information about the performance of each registered agent.
 ```python
-evaluations = arena.run()
+evaluation = arena.run()
 ```

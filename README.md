@@ -2,6 +2,9 @@
 
 This repository is used as a playground to experiment with OpenAI Gym for the bachelor's thesis.
 
+All of my source files are contained in the `gymkit` directory.  
+
+
 To evaluate an algorithm on an environment, use `main.py` as entry point.
 
 First, create a `Config` object and pass the name of the gym environment you want to use to the `name` agrument.

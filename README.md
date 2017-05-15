@@ -1,4 +1,4 @@
-# openai-gym-playground
+# OpenAI Gym Arena
 
 This repository is used as a playground to experiment with OpenAI Gym for the bachelor's thesis.
 

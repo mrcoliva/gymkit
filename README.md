@@ -10,7 +10,7 @@ config = Config(name='Pendulum-v0')
 ```  
 
 
-Then, create an `Arena` object.  
+Then, create an `Arena` object with the config you just created.
 You can register `Agent`s to an `Arena` where they will be evaluated on the environment specified in the `Config` object.  
 
 ```python

@@ -1,4 +1,5 @@
 import gym
+from gym import wrappers
 
 
 class Environment(object):
@@ -7,10 +8,18 @@ class Environment(object):
     """
 
 
-    def __init__(self, config):
-        self.env = gym.make(config.env_name)
-        self.config = config
+    def __init__(self, name, mode='training', monitoring_enabled=False):
+        self.name = name
+        self.mode = mode
+        self.env = gym.make(self.name)
+        if monitoring_enabled:
+            self.env = wrappers.Monitor(self.env, self.outdir(), force=True, mode=self.mode)
+
         self.episode_count = 0
+
+
+    def outdir(self):
+        return '/tmp/{}'.format(self.name)
 
 
     def perform(self, action):
@@ -40,7 +49,11 @@ class Environment(object):
     def reward(self, score):
         """
         Returns a generalizable score translated from the goals for this specific environment.
-        A higher score represents a better performance by the agent.
+        The absolute magnitude and signs of the reward are not important, only their relative values
+        where a higher value represents a better performance by the agent.
+        This method can be viewed as the fitness-function which evaluates a score on this specific
+        environment.
+        Genomes of evolutionary algorithms are adviced to use this function to compute their fitness value.
 
         Motivation: Since different environments have different goals, raw scores can't be compared
                     between environments. This method computes a value describing the success in this
@@ -71,3 +84,10 @@ class Environment(object):
         :return: The maximum number of steps before an episode is reset.
         """
         return self.env.spec.max_episode_steps
+
+
+class BipedalWalkerEnvironment(Environment):
+
+    def __init__(self, mode='training', monitoring_enabled=False):
+        super(BipedalWalkerEnvironment, self).__init__('BipedalWalker-v2', mode, monitoring_enabled)
+

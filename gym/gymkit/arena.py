@@ -4,8 +4,14 @@ from collections import defaultdict
 
 class Arena(object):
 
-    def __init__(self, config):
-        self.config = config
+    def __init__(self, environment_class, mode='training', monitoring_enabled=True):
+        """
+        Initializes a new `Arena`.
+        :param environment_class: The class of the environment that should be evaluated.
+        """
+        self.Environment = environment_class
+        self.mode = mode
+        self.monitoring_enabled = monitoring_enabled
         self.agents = []
         self.episodes = defaultdict(lambda: [])
         self.environments = {}
@@ -40,7 +46,7 @@ class Arena(object):
         :return: An environment.
         """
         if agent.id not in self.environments:
-            self.environments[agent.id] = self.config.environment()
+            self.environments[agent.id] = self.Environment(mode='training', monitoring_enabled=True)
 
         return self.environments[agent.id]
 
@@ -68,7 +74,7 @@ class Arena(object):
         return len(self.episodes[agent.id])
 
 
-    def run(self, max_episodes=10, render=False):
+    def run(self, max_episodes=100, render=False):
         """
         Runs each registered agent on the environment until the environment is solved or the specified
         number of episodes is reached.

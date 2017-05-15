@@ -5,20 +5,16 @@ from agent import Agent
 import numpy as np
 
 
-def sum_of(x, y):
-    return x + y
-
-
 class NeatAgent(Agent):
 
-    def __init__(self, id='NeatAgent', elite_size=3):
+    def __init__(self, id='NeatAgent', elite_size=3, verbose=False):
         super(NeatAgent, self).__init__()
-        self.config = self.config()
         self.env = None
+        self.config = None
+        self.verbose = verbose
         self.id = id
         self.stats = neat.StatisticsReporter()
-        self.population = neat.Population(self.config)
-        self.population.add_reporter(self.stats)
+        self.population = None
         self.elite_size = elite_size
         self.scores = []
         self.elite_scores = []
@@ -26,11 +22,16 @@ class NeatAgent(Agent):
 
     def setup(self, environment):
         self.env = environment
+        self.config = self.read_config(environment)
+        self.population = neat.Population(self.config)
+        self.population.add_reporter(self.stats)
+
+        if self.verbose:
+            self.population.add_reporter(neat.StdOutReporter(self.config))
 
 
-    def config(self):
-        local_directory = os.path.dirname(__file__)
-        config_path = os.path.join(local_directory, 'neat-config')
+    def read_config(self, environment):
+        config_path = os.path.join(os.path.dirname(__file__), 'neat_config/neat-config-{}'.format(environment.name))
         return neat.Config(neat.DefaultGenome, neat.DefaultReproduction, neat.DefaultSpeciesSet,
                            neat.DefaultStagnation, config_path)
 
@@ -53,7 +54,7 @@ class NeatAgent(Agent):
         """
         genome_network_pairs = map(lambda (_, genome): (genome, FeedForwardNetwork.create(genome, config)), population)
 
-        test_episodes = 30
+        test_episodes = 1
         for genome, network in genome_network_pairs:
             avg_scores = self.average_scores(self.env, network, test_episodes)
             genome.fitness = self.fitness(avg_scores)
@@ -66,7 +67,7 @@ class NeatAgent(Agent):
         :return: The fitness of the genome.
         """
         # print average_score
-        return (average_score / self.env.max_episode_steps()) + 1
+        return average_score / 300
 
 
     def average_scores(self, env, network, episodes):
@@ -78,12 +79,11 @@ class NeatAgent(Agent):
             score = 0
 
             while not game_over:
-                network_output = network.activate(observation)
-                observation, reward, done, info = env.perform(np.argmax(network_output))
+                observation, reward, done, info = env.perform(self.action([network], observation))
                 score += reward
                 total_score += reward
 
-                if done or score <= -200:
+                if done or score >= 300:
                     game_over = True
                     self.log_episode(score)
 
@@ -98,16 +98,13 @@ class NeatAgent(Agent):
 
     def action(self, networks, observation):
         votes = map(lambda network: network.activate(observation), networks)
-        # print map(np.sum, zip(*votes))
-        return np.argmax(map(np.sum, zip(*votes)))
+        return map(np.mean, zip(*votes))
 
 
     def run_episode(self, render=False):
         networks, genomes = self.evolve(self.elite_size)
         episode_reward = 0
         observation = self.env.reset()
-
-        #print map(lambda g: g.fitness, genomes)
 
         while True:
             action = self.action(networks, observation)

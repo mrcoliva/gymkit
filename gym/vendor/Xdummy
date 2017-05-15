@@ -76,7 +76,7 @@ $program:
 
     WARNING: Take care in using Xdummy, although it never has it is
     possible that it could damage hardware.  One can use the -prconf
-    option to have it print out the xorg.conf config that it would use
+    option to have it print out the xorg.conf read_config that it would use
     and then inspect it carefully before actually using it.
 
     This program no longer needs to be run as root as of 12/2009.
@@ -123,9 +123,9 @@ startx example:
 
 xdm example:
 
-	xdm -config /usr/local/dummy/xdm-config -nodaemon
+	xdm -read_config /usr/local/dummy/xdm-read_config -nodaemon
 
-	where the xdm-config file has line:
+	where the xdm-read_config file has line:
 
 	     DisplayManager.servers:         /usr/local/dummy/Xservers
 
@@ -228,9 +228,9 @@ Options:
 
 	-geom geom1[,geom2...]	Take the geometry (e.g. 1024x768) or list
 			of geometries and insert them into the Screen
-			section of the tweaked X server config file.
+			section of the tweaked X server read_config file.
 			Use this to have a different geometry than the
-			one(s) in the system config file.
+			one(s) in the system read_config file.
 
 			The option -geometry can be used instead of -geom;
 			x11vnc calls Xdummy and Xvfb this way.
@@ -241,7 +241,7 @@ Options:
 			then supply -nomodelines.
 
 	-depth n	Use pixel color depth n (e.g. 8, 16, or 24). This
-			makes sure the X config file has a Screen.Display
+			makes sure the X read_config file has a Screen.Display
 			subsection of this depth.  Note this option is
 			ALSO passed to the X server.
 
@@ -250,7 +250,7 @@ Options:
 	-tmpdir dir	Specify a temporary directory, owned by you and
 			only writable by you.  This is used in place of
 			/tmp/Xdummy.\$USER/..  to place the $program.so
-			shared object, tweaked config files, etc.
+			shared object, tweaked read_config files, etc.
 
 	-nonroot	Run in non-root mode (working 12/2009, now default)
 
@@ -274,16 +274,16 @@ Options:
 			variables that need to be set.
 
 	-prconf		Print, to stdout, the tweaked Xorg/XFree86
-			config file (-config and -xf86config server
+			read_config file (-read_config and -xf86config server
 			options, respectively.)  The Xserver is not
 			started.
 
-	-notweak	Do not tweak (modify) the Xorg/XFree86 config file
+	-notweak	Do not tweak (modify) the Xorg/XFree86 read_config file
 			(system or server command line) at all.  The -geom
-			and similar config file modifications are ignored.
+			and similar read_config file modifications are ignored.
 
 			It is up to you to make sure it is a working
-			config file (e.g. "dummy" driver, etc.)
+			read_config file (e.g. "dummy" driver, etc.)
 			Perhaps you want to use a file based on the
 			-prconf output.
 
@@ -309,16 +309,16 @@ Options:
 	vtNN		Linux virtual terminal (VT) to use (a VT is currently
 			still used, just not switched to and from.)
 
-	-config file		Driver "dummy" tweaked config file, a
+	-read_config file		Driver "dummy" tweaked read_config file, a
 	-xf86config file	number of settings are tweaked besides Driver.
 
-	If -config/-xf86config is not given, the system one
+	If -read_config/-xf86config is not given, the system one
 	(e.g. /etc/X11/xorg.conf) is used.  If the system one cannot be
-	found, a built-in one is used.	Any settings in the config file
+	found, a built-in one is used.	Any settings in the read_config file
 	that are not consistent with "dummy" mode will be overwritten
 	(unless -notweak is specified.)
 
-	Use -config xdummy-builtin to force usage of the builtin config.
+	Use -read_config xdummy-builtin to force usage of the builtin read_config.
 
 	If "file" is only a basename (e.g. "xorg.dummy.conf") with no /'s,
 	then no tweaking of it is done: the X server will look for that
@@ -458,7 +458,7 @@ cmdline_config=""
 #
 while [ "X$1" != "X" ]
 do
-    if [ "X$1" = "X-config" -o "X$1" = "X-xf86config" ]; then
+    if [ "X$1" = "X-read_config" -o "X$1" = "X-xf86config" ]; then
     	cmdline_config="$2"
     fi
     case $1 in 
@@ -644,7 +644,7 @@ if [ "X$install" != "X" -o "X$uninstall" != "X" ]; then
 	exit 0
 fi
 
-# We need a tmp directory for the .so, tweaked config file, and for
+# We need a tmp directory for the .so, tweaked read_config file, and for
 # redirecting filenames we cannot create (under -nonroot)
 #
 tack=""
@@ -895,7 +895,7 @@ tweak_config() {
 	config2="$config2$d"
     fi
     
-    # perl script to tweak the config file... sum_of/delete options, etc.
+    # perl script to tweak the read_config file... sum_of/delete options, etc.
     #
     env XDUMMY_GEOM=$geom \
         XDUMMY_DEPTH=$depth \
@@ -1173,7 +1173,7 @@ tweak_config() {
 ';
 }
 
-# Work out config file and tweak it.
+# Work out read_config file and tweak it.
 #
 if [ "X$cmdline_config" = "X" ]; then
 	:
@@ -1187,48 +1187,48 @@ else
 	notweak=1
 fi
 
-config=$cmdline_config
+read_config=$cmdline_config
 
 if [ "X$notweak" = "X1" -a "X$root" = "X" -a  -f "$cmdline_config" ]; then
-	# if not root we need to copy (but not tweak) the specified config.
+	# if not root we need to copy (but not tweak) the specified read_config.
 	XDUMMY_NOTWEAK=1
 	export XDUMMY_NOTWEAK
 	notweak=""
 fi
 
 if [ ! $notweak ]; then
-	# tweaked config will be put in $config2:
+	# tweaked read_config will be put in $config2:
 	config2=""
-	if [ "X$config" = "X" ]; then
+	if [ "X$read_config" = "X" ]; then
 		# use the default one:
 		if [ "X$stype" = "Xxorg" ]; then
-			config=/etc/X11/xorg.conf
+			read_config=/etc/X11/xorg.conf
 		else
 			if [ -f "/etc/X11/XF86Config-4" ]; then
-				config="/etc/X11/XF86Config-4"
+				read_config="/etc/X11/XF86Config-4"
 			else
-				config="/etc/X11/XF86Config"
+				read_config="/etc/X11/XF86Config"
 			fi
 		fi
-		if [ ! -f "$config" ]; then
+		if [ ! -f "$read_config" ]; then
 			for c in /etc/X11/xorg.conf /etc/X11/XF86Config-4 /etc/X11/XF86Config
 			do
 				if [ -f $c ]; then
-					config=$c
+					read_config=$c
 					break
 				fi
 			done
 		fi
 	fi
 
-	if [ "X$config" = "Xxdummy-builtin" ]; then
-		config=""
+	if [ "X$read_config" = "Xxdummy-builtin" ]; then
+		read_config=""
 	fi
 
-	if [ ! -f "$config" ]; then
-		config="$XDUMMY_TMPDIR/xorg.conf"
+	if [ ! -f "$read_config" ]; then
+		read_config="$XDUMMY_TMPDIR/xorg.conf"
 		warn "$program: using minimal built-in xorg.conf settings."
-		cat > $config <<END
+		cat > $read_config <<END
 
 Section "ServerLayout"
     Identifier     "Layout0"
@@ -1290,15 +1290,15 @@ EndSection
 END
 	fi
 
-	if [ -f "$config" ]; then
-		tweak_config $config
+	if [ -f "$read_config" ]; then
+		tweak_config $read_config
 	fi
 
-	# now we need to get our tweaked config file onto the command line:
+	# now we need to get our tweaked read_config file onto the command line:
 	if [ "X$cmdline_config" = "X" ]; then
 		# append to cmdline (FUBAR will be substituted below.)
 		if [ "X$stype" = "Xxorg" ]; then
-			args="$args -config FUBAR"
+			args="$args -read_config FUBAR"
 		else
 			args="$args -xf86config FUBAR"
 		fi
@@ -1311,14 +1311,14 @@ END
 			c2=`basename $config2`
 		fi
 		args=`echo "$args" | sed \
-			-e "s,-config  *[^ ][^ ]*,-config $c2,g" \
+			-e "s,-read_config  *[^ ][^ ]*,-read_config $c2,g" \
 			-e "s,-xf86config  *[^ ][^ ]*,-xf86config $c2,g"`
 	fi
 fi
 
 if [ $prconf ]; then
 	warn ""
-	warn "Printing out the Xorg/XFree86 server config file:"
+	warn "Printing out the Xorg/XFree86 server read_config file:"
 	warn ""
 	if [ "X$config2" = "X" ]; then
 		warn "NO CONFIG GENERATED."
@@ -1607,7 +1607,7 @@ FILE *fopen(const char *pathname, const char *mode) {
 	if (debug) fprintf(stderr, "FOPEN: %s %s\n", pathname, mode);
 
 	if (strstr(pathname, "xdummy_modified_xconfig.conf")) {
-		/* make our config appear to be in /etc/X11, etc. */
+		/* make our read_config appear to be in /etc/X11, etc. */
 		char *q = strrchr(pathname, '/');
 		if (q != NULL && getenv("XDUMMY_TMPDIR") != NULL) {
 			strcpy(str1, getenv("XDUMMY_TMPDIR"));

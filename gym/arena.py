@@ -1,28 +1,7 @@
-from gym import wrappers
-from agent import Agent
-from neuro_net import NeatAgent
+from gymkit.neuro_net import NeatAgent
+from gymkit.agent import Agent
 from collections import defaultdict
-from environment import Environment
-
-
-class CartPoleConfig(object):
-
-    def __init__(self, mode='training', monitor=False):
-        self.env_name = 'CartPole-v0'
-        self.outdir = '/tmp/{}'.format(self.env_name)
-        self.mode = mode
-        self.monitor = monitor
-        self.min_reward = 0
-        self.max_reward = 200
-        self.solved_threshhold = 195
-
-
-    def environment(self):
-        env = Environment(self)
-
-        if self.monitor:
-            return wrappers.Monitor(env, self.outdir, force=True, mode=self.mode)
-        return env
+from gymkit.config import Config
 
 
 class Arena(object):
@@ -104,15 +83,14 @@ class Arena(object):
             while self.num_episodes_of(agent) < max_episodes:
                 score = agent.run_episode(env)
                 self.process_finished_episode(agent, score)
-                if score >= 1000: break
 
         return evaluations
 
 
 if __name__ == '__main__':
-    config = CartPoleConfig()
+    config = Config(name='Pendulum-v0')
     stadium = Arena(config)
-    stadium.register(NeatAgent(elite_size=3))
+    agent = NeatAgent(elite_size=3)
+    stadium.register(agent)
 
     evaluations = stadium.run()
-    print 'Evaluations: {}'.format(evaluations)

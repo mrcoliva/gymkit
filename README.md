@@ -14,6 +14,7 @@ If you need to customize properties of an `Environment`, like a custom `reward` 
   
 Next, initialze an `Arena` object with the environment class you wish to evaluate.  
 *Important: Don't pass an instance of the class, since `Arena` itself creates instances of `Environment`s when `Agent`s are registered.*  
+  
 You can register `Agent`s to an `Arena` where they will be evaluated on the environment specified in the `Config` object.  
 
 ```python

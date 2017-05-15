@@ -2,6 +2,7 @@ import neat
 from neat.nn import FeedForwardNetwork
 import os
 from agent import Agent
+import numpy as np
 
 
 def sum_of(x, y):
@@ -52,7 +53,7 @@ class NeatAgent(Agent):
         """
         genome_network_pairs = map(lambda (_, genome): (genome, FeedForwardNetwork.create(genome, config)), population)
 
-        test_episodes = 1
+        test_episodes = 30
         for genome, network in genome_network_pairs:
             avg_scores = self.average_scores(self.env, network, test_episodes)
             genome.fitness = self.fitness(avg_scores)
@@ -64,7 +65,8 @@ class NeatAgent(Agent):
         :param average_score: The average of the scores reached in the simulated games.
         :return: The fitness of the genome.
         """
-        return average_score / self.env.config.max_reward
+        # print average_score
+        return (average_score / self.env.max_episode_steps()) + 1
 
 
     def average_scores(self, env, network, episodes):
@@ -76,13 +78,12 @@ class NeatAgent(Agent):
             score = 0
 
             while not game_over:
-                network_output = network.activate(observation)[0]
-                action = 0 if network_output < 0 else 1
-                observation, reward, done, info = env.perform(action)
+                network_output = network.activate(observation)
+                observation, reward, done, info = env.perform(np.argmax(network_output))
                 score += reward
                 total_score += reward
 
-                if done or score >= 200:
+                if done or score <= -200:
                     game_over = True
                     self.log_episode(score)
 
@@ -96,8 +97,9 @@ class NeatAgent(Agent):
 
 
     def action(self, networks, observation):
-        vote_balance = reduce(sum_of, map(lambda network: network.activate(observation)[0], networks))
-        return 0 if vote_balance < 0 else 1
+        votes = map(lambda network: network.activate(observation), networks)
+        # print map(np.sum, zip(*votes))
+        return np.argmax(map(np.sum, zip(*votes)))
 
 
     def run_episode(self, render=False):
@@ -105,8 +107,11 @@ class NeatAgent(Agent):
         episode_reward = 0
         observation = self.env.reset()
 
+        #print map(lambda g: g.fitness, genomes)
+
         while True:
-            observation, reward, done, _ = self.env.perform(self.action(networks, observation))
+            action = self.action(networks, observation)
+            observation, reward, done, _ = self.env.perform(action)
             episode_reward += reward
 
             if render:

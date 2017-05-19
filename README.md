@@ -2,7 +2,7 @@
 
 This repository is used as a playground to experiment with OpenAI Gym for the bachelor's thesis.
 
-All of my source files are contained in the `gymkit` module.  
+All of my source files are contained in the `gymkit` module (except `main.py`).
 
 ---
 
@@ -16,7 +16,7 @@ Next, initialze an `Arena` object with the environment class you wish to evaluat
 *Important: Don't pass an instance of the class, since `Arena` itself creates instances of `Environment`s when `Agent`s are registered.*  
 
 ```python
-arena = Arena(mode='training', monitoring_enabled=True)
+arena = Arena(BipedalWalkerEnvironment) # pass a class itself, not an instance of one
 ```  
 
 You can register `Agent`s to an `Arena` where they will be evaluated on the specified environment.  

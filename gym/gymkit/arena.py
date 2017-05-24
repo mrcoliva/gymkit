@@ -81,7 +81,7 @@ class Arena(object):
         :return: A dictionary containing an evaluation for each agent.
         """
         evaluations = {}
-
+        print '[Arena] Start running...'
         for agent in self.agents:
             env = self.environment(agent)
             while self.num_episodes_of(agent) < max_episodes:

@@ -9,9 +9,9 @@ fitness_threshold     = 1000
 reset_on_extinction   = 0
 
 [DefaultGenome]
-num_inputs              = 4
+num_inputs              = 8
 num_hidden              = 0
-num_outputs             = 2
+num_outputs             = 4
 initial_connection      = partial 0.5
 feed_forward            = True
 compatibility_disjoint_coefficient = 1.0
@@ -20,8 +20,8 @@ conn_add_prob           = 0.15
 conn_delete_prob        = 0.1
 node_add_prob           = 0.15
 node_delete_prob        = 0.1
-activation_default      = tanh
-activation_options      = tanh
+activation_default      = clamped
+activation_options      = softplus
 activation_mutate_rate  = 0.0
 aggregation_default     = sum
 aggregation_options     = sum

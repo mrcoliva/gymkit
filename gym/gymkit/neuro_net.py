@@ -3,16 +3,16 @@ from neat.nn import FeedForwardNetwork
 import os
 from agent import Agent
 import numpy as np
+from gym.spaces import Box
 
 
 class NeatAgent(Agent):
 
     def __init__(self, id='NeatAgent', elite_size=3, verbose=False):
-        super(NeatAgent, self).__init__()
+        super(NeatAgent, self).__init__(id)
         self.env = None
         self.config = None
         self.verbose = verbose
-        self.id = id
         self.stats = neat.StatisticsReporter()
         self.population = None
         self.elite_size = elite_size
@@ -61,13 +61,11 @@ class NeatAgent(Agent):
 
 
     def fitness(self, average_score):
-        # TODO: implement a less naive function.
         """
         :param average_score: The average of the scores reached in the simulated games.
         :return: The fitness of the genome.
         """
-        # print average_score
-        return average_score / 300
+        return average_score
 
 
     def average_scores(self, env, network, episodes):
@@ -83,7 +81,7 @@ class NeatAgent(Agent):
                 score += reward
                 total_score += reward
 
-                if done or score >= 300:
+                if done:
                     game_over = True
                     self.log_episode(score)
 
@@ -98,7 +96,17 @@ class NeatAgent(Agent):
 
     def action(self, networks, observation):
         votes = map(lambda network: network.activate(observation), networks)
-        return map(np.mean, zip(*votes))
+        if isinstance(self.env.action_space, Box):
+            return map(self.aggregate_output, zip(*votes))
+        else:
+            return np.argmax(map(self.aggregate_output, zip(*votes)))
+
+
+    def aggregate_output(self, output):
+        """
+        The function used to aggregate the output of multiple phenotypes into a single decision. 
+        """
+        return np.mean(output)
 
 
     def run_episode(self, render=False):

@@ -12,8 +12,8 @@ class Environment(object):
         self.name = name
         self.mode = mode
         self.env = gym.make(self.name)
-        if monitoring_enabled:
-            self.env = wrappers.Monitor(self.env, self.outdir(), force=True, mode=self.mode)
+        # if monitoring_enabled:
+        #     self.env = wrappers.Monitor(self.env, self.outdir(), force=True, mode=self.mode)
 
         self.episode_count = 0
 
@@ -86,8 +86,35 @@ class Environment(object):
         return self.env.spec.max_episode_steps
 
 
+    @property
+    def observation_space(self):
+        return self.env.observation_space
+
+
+    @property
+    def action_space(self):
+        return self.env.action_space
+
+
+
+
+################################################################################
+
+
 class BipedalWalkerEnvironment(Environment):
 
     def __init__(self, mode='training', monitoring_enabled=False):
         super(BipedalWalkerEnvironment, self).__init__('BipedalWalker-v2', mode, monitoring_enabled)
+
+
+class CartpoleEnvironment(Environment):
+
+    def __init__(self, mode='training', monitoring_enabled=False):
+        super(CartpoleEnvironment, self).__init__('CartPole-v0', mode, monitoring_enabled)
+
+
+class LunarLanderEnvironment(Environment):
+
+    def __init__(self, mode='training', monitoring_enabled=False):
+        super(LunarLanderEnvironment, self).__init__('LunarLander-v2', mode, monitoring_enabled)
 

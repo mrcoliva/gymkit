@@ -22,53 +22,55 @@
     <option name="SHOW_EMPTY_GROUPS" value="false" />
     <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
   </component>
+  <component name="DockManager">
+    <window id="1">
+      <content type="file-editors">
+        <state>
+          <leaf>
+            <file leaf-file-name="playground.py" pinned="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/playground.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="543">
+                    <caret line="70" column="19" lean-forward="false" selection-start-line="70" selection-start-column="19" selection-end-line="70" selection-end-column="19" />
+                    <folding>
+                      <element signature="e#0#10#0" expanded="true" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+          </leaf>
+        </state>
+      </content>
+    </window>
+  </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="gym" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.52738094">
+    <splitter split-orientation="horizontal" split-proportion="0.4542969">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="agent.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/gymkit/agent.py">
+          <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/main.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="264">
-                  <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="arena.py" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/gymkit/arena.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1152">
-                  <caret line="48" column="99" lean-forward="false" selection-start-line="48" selection-start-column="99" selection-end-line="48" selection-end-column="99" />
+                <state relative-caret-position="384">
+                  <caret line="16" column="4" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="4" />
                   <folding>
-                    <element signature="e#0#30#0" expanded="true" />
+                    <element signature="e#0#38#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="neat-config-BipedalWalker-v2" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/gymkit/neat_config/neat-config-BipedalWalker-v2">
+          <file leaf-file-name="arena.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/gymkit/arena.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="72">
-                  <caret line="3" column="26" lean-forward="false" selection-start-line="3" selection-start-column="26" selection-end-line="3" selection-end-column="26" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/main.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="120">
-                  <caret line="5" column="63" lean-forward="false" selection-start-line="5" selection-start-column="63" selection-end-line="5" selection-end-column="63" />
+                <state relative-caret-position="786">
+                  <caret line="76" column="50" lean-forward="true" selection-start-line="76" selection-start-column="50" selection-end-line="76" selection-end-column="50" />
                   <folding>
-                    <element signature="e#0#38#0" expanded="true" />
+                    <element signature="e#0#30#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -77,11 +79,33 @@
           <file leaf-file-name="environment.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/gymkit/environment.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="661">
-                  <caret line="89" column="0" lean-forward="true" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+                <state relative-caret-position="767">
+                  <caret line="96" column="0" lean-forward="true" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
                   <folding>
                     <element signature="e#0#10#0" expanded="true" />
                   </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="neuro_net.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/gymkit/neuro_net.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="2874">
+                  <caret line="126" column="0" lean-forward="true" selection-start-line="117" selection-start-column="12" selection-end-line="126" selection-end-column="0" />
+                  <folding>
+                    <element signature="e#0#11#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="agent.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/gymkit/agent.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="216">
+                  <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -90,23 +114,26 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="agent.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/gymkit/agent.py">
+          <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/main.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="0">
-                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-                  <folding />
+                <state relative-caret-position="408">
+                  <caret line="17" column="34" lean-forward="true" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
+                  <folding>
+                    <element signature="e#0#38#0" expanded="true" />
+                    <marker date="1495645000000" expanded="true" signature="474:533" ph="..." />
+                  </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="neuro_net.py" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/gymkit/neuro_net.py">
+          <file leaf-file-name="neural_network_agent.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/gymkit/neural_network_agent.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-43">
-                  <caret line="29" column="72" lean-forward="false" selection-start-line="29" selection-start-column="72" selection-end-line="29" selection-end-column="72" />
+                <state relative-caret-position="-1878">
+                  <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
                   <folding>
-                    <element signature="e#0#11#0" expanded="true" />
+                    <element signature="e#0#35#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -130,7 +157,13 @@
       <find>agent.id()</find>
       <find>self.network</find>
       <find>config</find>
+      <find>pri</find>
+      <find>print</find>
+      <find>print</find>
     </findStrings>
+    <dirStrings>
+      <dir>gymkit</dir>
+    </dirStrings>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -148,14 +181,18 @@
         <option value="$PROJECT_DIR$/neuro_net.py" />
         <option value="$PROJECT_DIR$/neat-config" />
         <option value="$PROJECT_DIR$/arena.py" />
-        <option value="$PROJECT_DIR$/gymkit/agent.py" />
-        <option value="$PROJECT_DIR$/gymkit/neat_config/neat-config-CartPole-v0" />
         <option value="$PROJECT_DIR$/gymkit/neat_config/neat-config-BipedalWalker-v2" />
-        <option value="$PROJECT_DIR$/gymkit/neuro_net.py" />
         <option value="$PROJECT_DIR$/gymkit/config.py" />
-        <option value="$PROJECT_DIR$/main.py" />
-        <option value="$PROJECT_DIR$/gymkit/environment.py" />
+        <option value="$PROJECT_DIR$/gymkit/neat_config/neat-config-CartPole-v0" />
         <option value="$PROJECT_DIR$/gymkit/arena.py" />
+        <option value="$PROJECT_DIR$/gymkit/neat_config/neat-config-AirRaid-v0" />
+        <option value="$PROJECT_DIR$/gymkit/neat_config/neat-config-LunarLander-v2" />
+        <option value="$PROJECT_DIR$/gymkit/agent.py" />
+        <option value="$PROJECT_DIR$/gymkit/neuro_net.py" />
+        <option value="$PROJECT_DIR$/gymkit/environment.py" />
+        <option value="$PROJECT_DIR$/neural_network_agent.py" />
+        <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/gymkit/neural_network_agent.py" />
       </list>
     </option>
   </component>
@@ -167,11 +204,11 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
-    <option name="width" value="1680" />
-    <option name="height" value="1023" />
+    <option name="width" value="2560" />
+    <option name="height" value="1413" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
+    <navigator proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -184,56 +221,7 @@
       <manualOrder />
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gym" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gym" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gym" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gym" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gymkit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gym" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gym" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gymkit" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="neat_config" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -455,7 +443,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1680" height="1023" extended-state="6" />
+    <frame x="0" y="23" width="2560" height="1413" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -466,7 +454,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13392857" sideWeight="0.49536425" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32836932" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.328125" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.14101562" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17380953" sideWeight="0.50463575" order="2" side_tool="true" content_ui="tabs" />
@@ -491,40 +479,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/arena.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="1" column="30" lean-forward="false" selection-start-line="1" selection-start-column="30" selection-end-line="1" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gymkit/neuro_net.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="13" column="53" lean-forward="true" selection-start-line="13" selection-start-column="53" selection-end-line="13" selection-end-column="53" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gymkit/agent.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/arena.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="48">
-          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Config.py" />
     <entry file="file://$PROJECT_DIR$/agent.py" />
     <entry file="file://$PROJECT_DIR$/neuro_net.py" />
@@ -558,18 +512,10 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test.py" />
-    <entry file="file://$PROJECT_DIR$/playground.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-9">
-          <caret line="14" column="24" lean-forward="false" selection-start-line="14" selection-start-column="24" selection-end-line="14" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/scores.svg">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -637,48 +583,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gym/core.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="304" column="25" lean-forward="false" selection-start-line="304" selection-start-column="25" selection-end-line="304" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/utils.py" />
     <entry file="file://$PROJECT_DIR$/environment.py" />
     <entry file="file://$PROJECT_DIR$/Config.py" />
     <entry file="file://$PROJECT_DIR$/neat-config" />
     <entry file="file://$PROJECT_DIR$/neuro_net.py" />
-    <entry file="file://$PROJECT_DIR$/arena.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1049">
-          <caret line="92" column="35" lean-forward="true" selection-start-line="92" selection-start-column="35" selection-end-line="92" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gymkit/agent.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gymkit/neat_config/neat-config-CartPole-v0">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="13" column="27" lean-forward="false" selection-start-line="13" selection-start-column="27" selection-end-line="13" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/arena.py" />
     <entry file="file://$PROJECT_DIR$/gymkit/neat_config/neat-config-BipedalWalker-v2">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
           <caret line="3" column="26" lean-forward="false" selection-start-line="3" selection-start-column="26" selection-end-line="3" selection-end-column="26" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -686,46 +600,123 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/miniconda2/lib/python2.7/site-packages/pyglet/window/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="431">
+          <caret line="969" column="8" lean-forward="false" selection-start-line="969" selection-start-column="8" selection-end-line="969" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gym/core.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1815">
+          <caret line="118" column="63" lean-forward="false" selection-start-line="118" selection-start-column="63" selection-end-line="118" selection-end-column="63" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gymkit/neuro_net.py">
+    <entry file="file://$PROJECT_DIR$/gym/spaces/box.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-43">
-          <caret line="29" column="72" lean-forward="false" selection-start-line="29" selection-start-column="72" selection-end-line="29" selection-end-column="72" />
+        <state relative-caret-position="480">
+          <caret line="20" column="25" lean-forward="true" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
           <folding>
-            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gymkit/neat_config/neat-config-CartPole-v0">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="23" column="30" lean-forward="false" selection-start-line="23" selection-start-column="30" selection-end-line="23" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gymkit/arena.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="786">
+          <caret line="76" column="50" lean-forward="true" selection-start-line="76" selection-start-column="50" selection-end-line="76" selection-end-column="50" />
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gymkit/neat_config/neat-config-LunarLander-v2">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="13" column="27" lean-forward="false" selection-start-line="13" selection-start-column="27" selection-end-line="13" selection-end-column="27" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/gymkit/environment.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="661">
-          <caret line="89" column="0" lean-forward="true" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+        <state relative-caret-position="767">
+          <caret line="96" column="0" lean-forward="true" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
+    <entry file="file://$PROJECT_DIR$/gymkit/agent.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="5" column="63" lean-forward="false" selection-start-line="5" selection-start-column="63" selection-end-line="5" selection-end-column="63" />
+        <state relative-caret-position="216">
+          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gymkit/neuro_net.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2874">
+          <caret line="126" column="0" lean-forward="true" selection-start-line="117" selection-start-column="12" selection-end-line="126" selection-end-column="0" />
           <folding>
-            <element signature="e#0#38#0" expanded="true" />
+            <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gymkit/arena.py">
+    <entry file="file://$PROJECT_DIR$/playground.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1152">
-          <caret line="48" column="99" lean-forward="false" selection-start-line="48" selection-start-column="99" selection-end-line="48" selection-end-column="99" />
+        <state relative-caret-position="543">
+          <caret line="70" column="19" lean-forward="false" selection-start-line="70" selection-start-column="19" selection-end-line="70" selection-end-column="19" />
           <folding>
-            <element signature="e#0#30#0" expanded="true" />
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/neural_network_agent.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2904">
+          <caret line="121" column="0" lean-forward="false" selection-start-line="121" selection-start-column="0" selection-end-line="121" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="17" column="34" lean-forward="true" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#38#0" expanded="true" />
+            <marker date="1495645000000" expanded="true" signature="474:533" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gymkit/neural_network_agent.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1878">
+          <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -1,11 +1,12 @@
 class Agent(object):
 
-    def __init__(self):
-        self.id = 'UnnamedAgent'
-        pass
+    def __init__(self, id='UnnamedAgent'):
+        self.id = id
+
 
     def setup(self, environment):
-        pass
+        raise NotImplementedError
+
 
     def run_episode(self, render=False):
-        pass
+        raise NotImplementedError

@@ -1,4 +1,4 @@
-# OpenAI Gym Arena
+# GymKit for OpenAI Gym
 
 This repository is used as a playground to experiment with OpenAI Gym for the bachelor's thesis.
 

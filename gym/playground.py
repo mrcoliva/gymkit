@@ -1,11 +1,12 @@
 import gym
 import numpy
 import random
-import utils
 from keras.models import Sequential
 from keras.layers import Dense, Activation
+from gymkit.nn_config import FFNNConfig
+from gymkit.environment import Environment
 
-env = gym.make('CartPole-v0')
+env = Environment('CartPole-v0')
 should_render = True
 
 action_space = 2
@@ -14,6 +15,8 @@ training_episode_count = 1000
 game_episode_count = 10
 target_step_count = 1000
 quality_score_threshold = 50
+config = FFNNConfig(env)
+
 
 # Runs an initial set of games with random decisions to create learning data.
 # Returns an array of (observation, action) tuples to be used as learning data.
@@ -39,8 +42,8 @@ def run_initial_environment():
         previous_observation = []
 
         for tick in range(target_step_count):
-            action = utils.random_action(action_space)
-            observation, reward, done, info = env.step(action)
+            action = env.action_space.sample()
+            observation, reward, done, info = env.perform(action)
 
             score += reward
 
@@ -87,7 +90,7 @@ def run_with_neural_network(model):
     # all scores
     scores = []
 
-    # the scores higher than the quality threshhold
+    # the scores higher than the quality threshold
     quality_scores = []
 
     # actions taken in the current environment
@@ -105,7 +108,7 @@ def run_with_neural_network(model):
             # env.render()
 
             if len(previous_observation) == 0:
-                action = utils.random_action(action_space)
+                action = env.action_space.sample()
             else:
                 decision = model.predict(numpy.array(previous_observation).reshape((1, 4)))
                 action = 1 if decision >= 0.5 else 0

@@ -21,7 +21,7 @@ import time
 
 NUM_CORES = 2
 
-env = gym.make('CartPole-v0') # 'CartPole-v0'
+env = gym.make('LunarLander-v2') # 'CartPole-v0'
 
 print("action space: {0!r}".format(env.action_space))
 print("observation space: {0!r}".format(env.observation_space))
@@ -160,7 +160,7 @@ def run():
     # Load the config file, which is assumed to live in
     # the same directory as this script.
     local_dir = os.path.dirname(__file__)
-    config_path = os.path.join(local_dir, 'neat-config')
+    config_path = os.path.join(local_dir, 'neat_config/neat-config-LunarLander-v2')
     config = neat.Config(LanderGenome, neat.DefaultReproduction,
                          neat.DefaultSpeciesSet, neat.DefaultStagnation,
                          config_path)

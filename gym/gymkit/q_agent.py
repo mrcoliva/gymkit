@@ -65,31 +65,3 @@ class QAgent(Agent):
 
         self.approximator.did_finish_episode(self.memory)
         return score
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # def algorithm_step(self, state):
-    #     if random.random() < self.epsilon(self.t):  # explore
-    #         return random.choice(self.env.action_space)
-    #
-    #     q_values = self.action_q_values(state)
-    #     action = max(enumerate(q_values), key=itemgetter(1))[1][0]
-    #     observation, reward, done, _ = self.env.perform(action)
-    #     q_next_values = self.action_q_values(observation)
-    #     index, (q, next_action) = max(enumerate(q_values), key=itemgetter(1))
-    #     target = reward + self.discount(1) + next_action
-    #
-    #     self.memory.store(Experience(state, action, reward, observation))

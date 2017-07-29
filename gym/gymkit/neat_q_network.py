@@ -1,38 +1,18 @@
 from gymkit.q_function_approximator import DeepQNetwork
 import neat
 import os
+import multiprocessing
 from neat.nn import FeedForwardNetwork
 import numpy as np
-from gymkit.q_agent import QAgent
-from gymkit.arena import Arena
-from gymkit.environment import Environment
 import random
 import time
-from gymkit.q_models import Experience
+from gymkit.q_models import Experience, Memory
 
 
 def mse(x, y):
     assert len(x) == len(y)
+    assert np.asarray(x).shape == np.asarray(y).shape
     return np.mean([(pred - target)**2 for pred, target in zip(x, y)])
-
-
-def compute_fitness(genome, net, episodes, min_reward, max_reward):
-    m = int(round(np.log(0.01) / np.log(genome.discount)))
-    discount_function = [genome.discount ** (m - i) for i in range(m + 1)]
-
-    reward_errors = []
-    for score, experiences in episodes:
-        # Compute normalized discounted reward.
-        rewards = [e.reward for e in experiences]
-        discounted_reward = np.convolve(rewards, discount_function)[m:]
-        discounted_reward = 2 * (discounted_reward - min_reward) / (max_reward - min_reward) - 1.0
-        discounted_reward = np.clip(discounted_reward, -1.0, 1.0)
-
-        for experience, discounted_reward in zip(experiences, discounted_reward):
-            output = net.activate(experience.state.flatten())
-            reward_errors.append(float((output[experience.action] - discounted_reward) ** 2))
-
-    return reward_errors
 
 
 class ErrorCalculator(object):
@@ -48,32 +28,44 @@ class ErrorCalculator(object):
 
         self.episode_score = []
         self.episode_length = []
+        self.memory = Memory()
+
 
     def simulate(self, nets):
-        scores = []
         for genome, net in nets:
             state = self.env.reset()
-            step = 0
-            experiences = []
+
             while True:
-                step += 1
                 if random.random() < 0.2:
                     action = self.env.action_space.sample()
                 else:
                     action = np.argmax(net.activate(state.flatten()))
 
                 observation, reward, done, _ = self.env.perform(action)
-                experiences.append(Experience(state, action, reward, observation, done))
-
+                self.memory.store(Experience(state, action, reward, observation, done))
                 state = observation
+
                 if done:
                     break
 
-            score = np.sum([e.reward for e in experiences])
-            self.episode_score.append(score)
-            scores.append(score)
-            self.episode_length.append(step)
-            self.test_episodes.append((score, experiences))
+
+    def error(self, genome, net, episodes, min_reward, max_reward):
+        states, targets = [], []
+
+        for experience in self.memory.sample(32):
+            q_state = net.activate(experience.state.flatten())
+            q_result_state = net.activate(experience.result_state.flatten())
+            target = np.asarray(q_state).copy()
+
+            if experience.terminal:
+                target[experience.action] = experience.reward
+            else:
+                target[experience.action] = experience.reward + genome.discount * np.amax(q_result_state)
+
+            states.append(q_result_state)
+            targets.append(target.flatten())
+
+        return mse(states, targets)
 
 
     def evaluate_genomes(self, genomes, config):
@@ -94,10 +86,15 @@ class ErrorCalculator(object):
         # by improving their total reward or by making more accurate reward estimates.
         print("Evaluating {0} test episodes...".format(len(self.test_episodes)))
         t0 = time.time()
+        best = -10000
         for genome, net in nets:
-            reward_error = compute_fitness(genome, net, self.test_episodes, self.min_reward, self.max_reward)
-            genome.fitness = -np.sum(reward_error) / len(self.test_episodes)
+            genome.fitness = random.random
+            # -self.error(genome, net, self.test_episodes, self.min_reward, self.max_reward)
+            if genome.fitness > best:
+                best = genome.fitness
+
         print("Computing fitness took {0} seconds.\n".format(time.time() - t0))
+        print('Best fitness is {}'.format(best))
 
 
 class QGenome(neat.DefaultGenome):
@@ -106,23 +103,49 @@ class QGenome(neat.DefaultGenome):
         super(QGenome, self).__init__(key)
         self.discount = None
 
+
     def configure_new(self, config):
         super(QGenome, self).configure_new(config)
         self.discount = 0.01 + 0.98 * random.random()
 
+
     def configure_crossover(self, genome1, genome2, config):
         super(QGenome, self).configure_crossover(genome1, genome2, config)
         self.discount = random.choice((genome1.discount, genome2.discount))
+
 
     def mutate(self, config):
         super(QGenome, self).mutate(config)
         self.discount += random.gauss(0.0, 0.05)
         self.discount = max(0.01, min(0.99, self.discount))
 
+
     def distance(self, other, config):
         distance = super(QGenome, self).distance(other, config)
         discount_delta = abs(self.discount - other.discount)
         return distance + discount_delta
+
+
+def evaluate(env, network, num_episodes):
+    total_score = 0
+
+    for _ in range(num_episodes):
+            observation = env.reset()
+            game_over = False
+            score = 0
+
+            while not game_over:
+                if random.random() < 0.2:
+                    action = env.action_space.sample()
+                else:
+                    action = np.argmax(network.activate(observation.flatten()))
+
+                observation, reward, done, info = env.perform(action)
+                score += reward
+                total_score += reward
+                game_over = done
+
+    return total_score / num_episodes
 
 
 class NeatQNetwork(DeepQNetwork):
@@ -140,6 +163,7 @@ class NeatQNetwork(DeepQNetwork):
         self.population = None
         self.elite_size = elite_size
         self.error_calculator = None
+        self.pool = multiprocessing.Pool(4)
 
 
     @staticmethod
@@ -155,7 +179,6 @@ class NeatQNetwork(DeepQNetwork):
         self.error_calculator = ErrorCalculator(environment)
         self.population = neat.Population(self.config)
         self.population.add_reporter(self.stats)
-        self.evolve()
 
         if self.verbose:
             self.population.add_reporter(neat.StdOutReporter(self.config))
@@ -179,49 +202,37 @@ class NeatQNetwork(DeepQNetwork):
         return FeedForwardNetwork.create(genome, self.config)
 
 
-    # def compute_fitness(self, genomes, config):
-    #     """
-    #     Computes the fitness of each genome in the population and
-    #     assigns it to their fitness properties.
-    #     """
-    #     for _, genome in genomes:
-    #         genome.fitness = self.evaluate(self.phenotype(genome), self.env, self.test_episodes)
-    #
-
-    # def evaluate(self, network, env, episodes):
-    #     # type: (FeedForwardNetwork, Environment, int) -> float
-    #     """
-    #     Evaluates the given phenotype on the given number of episodes in the given environment.
-    #     :param network: A neural network phenotype.
-    #     :param env: An environment to evaluate the phenotype in.
-    #     :param episodes: The number of test episodes to run.
-    #     :return: The average score achieved in the episodes.
-    #     """
-    #     agent = QAgent(network, id="test_agent_{}".format(id))
-    #     agent.setup(env)
-    #     total_score = 0
-    #
-    #     for _ in range(episodes):
-    #         observation = env.reset()
-    #         game_over = False
-    #         score = 0
-    #
-    #         while not game_over:
-    #             observation, reward, done, info = env.perform(agent.action(observation.flatten()))
-    #             score += reward
-    #             total_score += reward
-    #
-    #             if done:
-    #                 game_over = True
-    #
-    #     return total_score / episodes
-
-
     def evolve(self):
-        print("\n===========\nEvolving from generation {0} to {1}...\n===========\n".format(self.generation, self.generation + self.gen_evolve))
-        best_genome = self.population.run(fitness_function=self.error_calculator.evaluate_genomes, n=self.gen_evolve)
+        """
+        Runs the genetic algorithm to evolve the population for a specified number of generations.
+        """
+        print('\n==\nEvolving from generation {0} to {1}.'.format(self.generation, self.generation + self.gen_evolve))
+        t0 = time.time()
+        best_genome = self.population.run(fitness_function=self.compute_fitness, n=self.gen_evolve)
         self.actor = self.phenotype(best_genome)
         self.generation += self.gen_evolve
+        print('Duration: {} seconds.\n==\n'.format(time.time() - t0))
+
+
+    def compute_fitness(self, population, config):
+        # type: ((str, QGenome), neat.Config) -> None
+        """
+        Computes the fitness of each genome in the population and 
+        stores it in their fitness properties.
+
+        :param population: A list of genome_id, genome tuples.
+        :param config: The neat config.
+        """
+        t0 = time.time()
+        for _, genome in population:
+            genome.fitness = evaluate(self.env, self.phenotype(genome), self.test_episodes)
+        print('Synchronous: {}'.format(time.time() - t0))
+
+        t0 = time.time()
+        tasks = [self.pool.apply_async(evaluate, (self.env, self.phenotype(genome), self.test_episodes)) for _, genome in population]
+        for task, (_, genome) in zip(tasks, population):
+            genome.fitness = task.get(timeout=None)
+        print('Distributed: {}'.format(time.time() - t0))
 
 
     def prepare_for_episode(self):

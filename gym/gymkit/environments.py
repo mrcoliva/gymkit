@@ -1,4 +1,4 @@
-from environment import Environment
+from gymkit.environment import Environment
 
 
 class BipedalWalkerEnvironment(Environment):

@@ -1,5 +1,5 @@
 import gym
-from gym.spaces import Box, Discrete
+from gym.spaces import Box
 import numpy as np
 
 

@@ -1,3 +1,6 @@
+neat
+baselines
+tensorflow
 keras
 numpy>=1.10.4
 requests>=2.0

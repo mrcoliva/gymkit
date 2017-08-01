@@ -1,22 +1,25 @@
+from os import system
 from gymkit.arena import Arena
 from gymkit.environments import *
 from gymkit.q_agent import QAgent
-from os import system
+from gymkit.neuro_net import NeatAgent
 from gymkit.neat_q_network import NeatQNetwork
 
 
 def run(env_class):
     arena = Arena(environment_class=env_class, print_episodes=True)
     # approximator = FeedForwardNeuralNetwork(8, 4)
-    approximator = NeatQNetwork(None, test_episodes=5, gen_evolve=1)
-    agent = QAgent(approximator)
+    agent = NeatAgent(test_episodes=1, verbose=True)
     arena.register(agent)
-    approximator.setup(arena.environment(agent))
-    episodes = arena.run(render=False, max_episodes=2)[agent.id]
+    episodes = arena.run(render=False, num_episodes=1000)[agent.id]
     # plt.plot(episodes)
     # #plt.plot(agent.q_values)
     # plt.show()
-    system('say Fertig')
+    # system('say Fertig')
+
+    # e = [agent.epsilon(e) for e in range(5000)]
+    # plt.plot(e)
+    # plt.show()
 
 
 

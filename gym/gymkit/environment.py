@@ -87,7 +87,8 @@ class Environment(object):
         """
         Resets the environment to the initial state.
         """
-        return np.asarray(self.env.reset()).reshape(1, self.state_vector_length)
+        # return np.asarray(self.env.reset()).reshape(1, self.state_vector_length)
+        return self.env.reset()
 
 
     def reward(self, score):

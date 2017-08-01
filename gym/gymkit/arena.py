@@ -76,7 +76,11 @@ class Arena(object):
         return len(self.episodes[agent.id])
 
 
-    def run(self, max_episodes=10000, render=False):
+    def evaluate(self, agent, num_episodes, render):
+        agent.evaluate(num_episodes)
+
+
+    def run(self, num_episodes=1000, render=False):
         """
         Runs each registered agent on the environment until the environment is solved or the specified
         number of episodes is reached.
@@ -84,10 +88,5 @@ class Arena(object):
         """
         evaluations = {}
         print('[Arena] Start running...')
-        for agent in self.agents:
-            env = self.environment(agent)
-            while self.num_episodes_of(agent) < max_episodes:
-                score = agent.run_episode(env)
-                self.process_finished_episode(agent, score)
-
+        [self.evaluate(agent, num_episodes, render) for agent in self.agents]
         return self.episodes

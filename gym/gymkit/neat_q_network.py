@@ -254,3 +254,4 @@ class NeatQNetwork(DeepQNetwork):
 
     def replay(self, experiences):
         pass
+

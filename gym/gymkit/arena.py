@@ -17,6 +17,7 @@ class Arena(object):
         self.agents = []
         self.episodes = defaultdict(lambda: [])
         self.environments = {}
+        self.evaluations = {}
 
 
     def reset(self):
@@ -77,7 +78,7 @@ class Arena(object):
 
 
     def evaluate(self, agent, num_episodes, render):
-        agent.evaluate(num_episodes)
+        self.evaluations[agent.id] = agent.evaluate(num_episodes, render)
 
 
     def run(self, num_episodes=1000, render=False):
@@ -86,7 +87,6 @@ class Arena(object):
         number of episodes is reached.
         :return: A dictionary containing an evaluation for each agent.
         """
-        evaluations = {}
         print('[Arena] Start running...')
         [self.evaluate(agent, num_episodes, render) for agent in self.agents]
-        return self.episodes
+        return self.evaluations

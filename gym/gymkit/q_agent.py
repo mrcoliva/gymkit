@@ -1,18 +1,16 @@
 import itertools
-import numpy as np
-from globals import NUM_CORES
-import gym
-from gymkit.agent import Agent
-from gymkit.q_function_approximator import DeepQNetwork
 
+import baselines.common.tf_util as U
+import numpy as np
 import tensorflow as tf
 import tensorflow.contrib.layers as layers
-import baselines.common.tf_util as U
-
-from baselines import deepq
-from baselines import logger
-from baselines.deepq.replay_buffer import ReplayBuffer
+from baselines import deepq, logger
 from baselines.common.schedules import LinearSchedule
+from baselines.deepq.replay_buffer import ReplayBuffer
+
+from gymkit.agent import Agent
+from gymkit.globals import NUM_CORES
+from gymkit.q_function_approximator import DeepQNetwork
 
 
 def model(inpt, num_actions, scope, reuse=False):
@@ -73,7 +71,7 @@ class QAgent(Agent):
         pass
 
 
-    def evaluate(self, render=False):
+    def evaluate(self, num_episodes, render=False):
         with U.make_session(NUM_CORES):
             env = self.env.env
             # Create all the functions necessary to train the model
@@ -104,6 +102,9 @@ class QAgent(Agent):
 
                 state = observation
                 self.scores[-1] += reward
+
+                if render:
+                    env.render()
 
                 if done:
                     state = env.reset()

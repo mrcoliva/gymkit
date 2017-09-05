@@ -1,6 +1,4 @@
 from typing import Optional
-
-import gym
 import neat, os, time, numpy as np
 from neat.nn import FeedForwardNetwork
 from gymkit.agent import Agent
@@ -29,12 +27,13 @@ class NeatAgent(Agent):
         self.winner_candidate_age = 0
         self.winner = None
         self.dismissed_winner_candidates = []
+        self.winner_candidate_min_fitness = 200
 
 
     def setup(self, environment: Environment):
         self.results_file = '/tmp/{0}-experiment-{1}'.format(environment.name, time.time())
-        self.env = gym.wrappers.Monitor(environment.env, self.results_file)
-        #self.env = environment.env
+        # self.env = gym.wrappers.Monitor(environment.env, self.results_file)
+        self.env = environment.env
         self.config = self.read_config(environment)
         self.population = neat.Population(self.config)
         self.population.add_reporter(self.stats)
@@ -88,14 +87,14 @@ class NeatAgent(Agent):
         for n in itertools.count(1):
             candidate = self.stats.best_unique_genomes(n)[-1]
             if candidate not in self.dismissed_winner_candidates:
-                print('Using the {}. fittest genome as winner candidate.'.format(n))
+                print('Using the {0}. fittest genome as winner candidate with fitness {1}.'.format(n, candidate.fitness))
                 return candidate
         return None
 
 
     def update_winner_candidate(self) -> None:
         genome = self.next_winner_candidate()
-        if genome.fitness < -110:
+        if genome.fitness < -50:
             return
 
         if self.winner_candidate is not None and self.winner_candidate.key == genome.key:
@@ -110,7 +109,7 @@ class NeatAgent(Agent):
     def evaluate_winner_candidate(self) -> None:
         print("\n--\nEvaluating winner candidate with key {}.".format(self.winner_candidate.key))
         candidate_score = self.average_score(self.env, self.phenotype(self.winner_candidate), num_episodes=10)
-        if candidate_score >= -110:
+        if candidate_score >= -80:
             self.winner = self.winner_candidate
         else:
             self.dismiss_winner_candidate()
@@ -155,7 +154,8 @@ class NeatAgent(Agent):
         """
         _ = self.population.run(fitness_function=self.compute_fitness, n=generations)
         self.generation += generations
-        self.update_winner_candidate()
+        # print('Evolved to generation {}.'.format(self.generation))
+        # self.update_winner_candidate()
 
 
     def action(self, state: np.ndarray, networks: [neat.nn.FeedForwardNetwork], t: int):
@@ -193,31 +193,34 @@ class NeatAgent(Agent):
         """
         Returns a boolean indicating whether the environment is considered as solved by the agent.
         """
-        return len(self.scores) >= 100 and np.mean(self.scores[-101:-1]) >= -110
+        return len(self.scores) >= 100 and np.mean(self.scores[-101:-1]) >= 195
 
 
-    def evaluate(self, max_episodes: int) -> None:
+    def actors(self) -> [FeedForwardNetwork]:
+        if self.winner is None:
+            # self.evolve(generations=1)
+            return self.fittest_networks(self.elite_size)
+        else:
+            return [self.phenotype(self.winner)]
+
+
+    def evaluate(self, max_episodes: int):
         self.scores = []
+        env = self.env
         t = 0
 
-        while len(self.scores) < max_episodes and not self.solved():
-            if self.winner is None:
-                self.evolve(generations=1)
-                actors = self.fittest_networks(self.elite_size)
-            else:
-                actors = [self.phenotype(self.winner)]
-
-            env = self.env
+        while not self.solved() and len(self.scores) < max_episodes:
             state = env.reset()
             episode_reward = 0
+            self.evolve(generations=1)
 
             while True:
-                action = self.action(state, actors, t)
+                action = self.action(state, self.actors(), t)
                 observation, reward, done, _ = env.step(action)
                 state = observation
                 episode_reward += reward
                 t += 1
-                # env.render()
+                env.render()
 
                 if done:
                     self.scores.append(episode_reward)
@@ -225,6 +228,10 @@ class NeatAgent(Agent):
                     break
 
             if self.solved():
-                print('\n\nSOLVED!\n\n')
+                print('''* Environment solved! *''')
                 self.env.close()
-                gym.upload(self.results_file, api_key='sk_7tsnNgAgQJmd87v9WC2hg')
+                #gym.upload(self.results_file, api_key='sk_7tsnNgAgQJmd87v9WC2hg')
+                return self.scores
+
+        return self.scores
+

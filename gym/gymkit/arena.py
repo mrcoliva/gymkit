@@ -1,4 +1,3 @@
-from __future__ import print_function
 from gymkit.agent import Agent
 from collections import defaultdict
 
@@ -78,6 +77,7 @@ class Arena(object):
 
 
     def evaluate(self, agent, num_episodes, render):
+        print('[Arena] Evaluating {0} for {1} episodes.'.format(agent.id, num_episodes))
         self.evaluations[agent.id] = agent.evaluate(num_episodes, render)
 
 

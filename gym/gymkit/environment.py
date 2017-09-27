@@ -8,7 +8,6 @@ class Environment(object):
     A wrapper for gym environments.
     """
 
-
     def __init__(self, name, mode='training', monitoring_enabled=False):
         self.name = name
         self.mode = mode
@@ -30,6 +29,11 @@ class Environment(object):
         :return: The reward threshold before the task is considered solved. 
         """
         return self.env.spec.reward_threshold
+
+
+    @property
+    def has_discrete_action_space(self):
+        return not isinstance(self.env.action_space, Box)
 
 
     @property
@@ -74,6 +78,10 @@ class Environment(object):
         self.episode_count += 1
         o, r, d, i, = self.env.step(action)
         return np.asarray(o).reshape(1, self.state_vector_length), r, d, i
+
+
+    def solved(self, scores):
+        return False
 
 
     def render(self):

@@ -27,16 +27,17 @@ class Arena(object):
         self.episodes = {}
 
 
-    def register(self, agent):
+    def register(self, agents: [Agent]):
         """
-        Registers an agent and configures it with an environment.
-        :param agent: An agent which can perform episodes on random environments and 
+        Registers a list of agent sand configures them with an environment.
+        :param agents: The agents which can perform episodes on random environments and 
         be evaluated based on success.
         """
-        assert isinstance(agent, Agent), 'Tried to register an invalid agent. Agents must be of class `Agent`.'
-        assert agent.id not in self.environments, 'Agent with id "{}" already registered.'.format(agent.id)
-        agent.setup(self.environment(agent))
-        self.agents.append(agent)
+        for agent in agents:
+            assert isinstance(agent, Agent), 'Tried to register an invalid agent. Agents must be of class `Agent`.'
+            assert agent.id not in self.environments, 'Agent with id "{}" already registered.'.format(agent.id)
+            agent.setup(self.environment(agent))
+            self.agents.append(agent)
 
 
     def environment(self, agent):
@@ -89,4 +90,5 @@ class Arena(object):
         """
         print('[Arena] Start running...')
         [self.evaluate(agent, num_episodes, render) for agent in self.agents]
+        print('[Arena] Evaluations completed...')
         return self.evaluations

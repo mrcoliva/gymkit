@@ -1,24 +1,27 @@
-import neat, os, time, numpy as np
+import neat, os, numpy as np
+import time
 from neat.nn import FeedForwardNetwork
 from gymkit.agent import Agent
 from gymkit.environment import Environment
-from gym.spaces import Box
+from gymkit.evaluation import Evaluation
 
 
 class NeatAgent(Agent):
 
-    def __init__(self, id='NeatAgent', elite_size=3, test_episodes=10, verbose=False):
+    def __init__(self, id='NeatAgent', elite_size=3, test_episodes=1, verbose=False):
         super(NeatAgent, self).__init__(id)
         self.env = None
         self.config = None
         self.verbose = verbose
         self.stats = neat.StatisticsReporter()
+        self.evaluator = neat.ParallelEvaluator(2, self.compute_fitness)
         self.generation = 0
         self.population = None
         self.elite_size = elite_size
         self.test_episodes = test_episodes
         self.scores = []
-        self.elite_scores = []
+        self.fittest_genome = None
+        self.t0 = None
 
 
     def setup(self, environment: Environment):
@@ -40,6 +43,7 @@ class NeatAgent(Agent):
 
     def log_episode(self, score: int):
         self.scores.append(score)
+        print('{0}: Score: {1} | {2} ({3})'.format(len(self.scores), self.scores[-1], self.stats.best_unique_genomes(1)[0].fitness, np.mean(self.scores[-99:])))
 
 
     def fittest_networks(self, n: int) -> [neat.nn.FeedForwardNetwork]:
@@ -72,28 +76,35 @@ class NeatAgent(Agent):
             genome.fitness = self.average_score(network)
 
 
-    def average_score(self, network: neat.nn.FeedForwardNetwork) -> float:
+    def average_score(self, network: neat.nn.FeedForwardNetwork):
         """
         Runs the network in an environment and measures its success. 
         :param network: The network to evaluate.
         :return: The average score reached in the test episodes.
         """
-        total_score = 0
-        t = 0
+        scores = []
 
         for _ in range(self.test_episodes):
             state = self.env.reset()
+            e_score = 0
 
             while True:
-                t += 1
-                observation, reward, done, _ = self.env.perform(self.action(state, [network], t))
+                observation, reward, done, _ = self.env.perform(self.action(state, [network]))
                 state = observation
-                total_score += reward
+                e_score += reward
 
                 if done:
+                    scores.append(e_score)
                     break
 
-        return total_score / self.test_episodes
+        return np.mean(scores)  # - (NeatAgent.variance(scores) / 2)
+
+
+    @staticmethod
+    def variance(values: [float]):
+        mean = np.mean(values)
+        values = list(map(lambda x: np.square(x - mean), values))
+        return np.sum(values) / len(values)
 
 
     def evolve(self, generations: int = 1):
@@ -102,17 +113,29 @@ class NeatAgent(Agent):
         """
         self.population.run(fitness_function=self.compute_fitness, n=generations)
         self.generation += generations
+        self.update_fittest_genome_if_needed()
+        print('Elite: {}'.format(list(map(lambda g: (g.key, g.fitness), self.stats.best_unique_genomes(self.elite_size)))))
 
 
-    def action(self, state: np.ndarray, networks: [neat.nn.FeedForwardNetwork], t: int):
-        # if random.random() < 0.2:  # self.epsilon(t):
-        #     return self.env.action_space.sample()
+    def update_fittest_genome_if_needed(self):
+        fittest = self.stats.best_genome()
+        if self.fittest_genome is None:
+            print('[{0}] Setting initial fittest genome ({1})'.format(self.id, int(fittest.fitness)))
+            self.fittest_genome = fittest
+        if fittest.fitness > self.fittest_genome.fitness:
+            print('[{0}] Updated fittest genome ({1} -> {2}) in gen. {3}.'
+                  .format(self.id, int(self.fittest_genome.fitness), int(fittest.fitness), self.generation))
+            self.fittest_genome = fittest
 
+
+    def action(self, state: np.ndarray, networks: [neat.nn.FeedForwardNetwork]):
         votes = [network.activate(state.flatten()) for network in networks]
-        if isinstance(self.env.action_space, Box):
-            return list(map(self.aggregate_output, list(zip(*votes))))
+        aggregated_votes = list(map(self.aggregate_output, list(zip(*votes))))
+
+        if self.env.has_discrete_action_space:
+            return np.argmax(aggregated_votes)
         else:
-            return np.argmax(list(map(self.aggregate_output, list(zip(*votes)))))
+            return aggregated_votes
 
 
     @staticmethod
@@ -123,27 +146,40 @@ class NeatAgent(Agent):
         return np.mean(output)
 
 
+    @property
     def actors(self) -> [FeedForwardNetwork]:
         return self.fittest_networks(self.elite_size)
 
 
+    def evaluation(self) -> Evaluation:
+        return Evaluation(name=self.id, info={
+            "scores": self.scores,
+            'runtime': time.time() - self.t0,
+            'best_fitness': [c.fitness for c in self.stats.most_fit_genomes],
+            'avg_fitness': self.stats.get_fitness_mean(),
+            'stdev_fitness': self.stats.get_fitness_stdev(),
+            'species_sites': self.stats.get_species_sizes(),
+            'best_genome': str(self.stats.best_genome())
+        })
+
+
     def evaluate(self, max_episodes: int, render=False) -> [float]:
+        self.t0 = time.time()
         self.scores = []
         # env = self.env
         env = Environment(self.env.name)  # a temporal workaround for a bug that caused the env to be already done
-        t = 0
 
-        while len(self.scores) < max_episodes:
+        while len(self.scores) < max_episodes and not env.solved(self.scores):
             state = env.reset()
             episode_reward = 0
             self.evolve(generations=1)
+            actors = self.actors
 
             while True:
-                action = self.action(state, self.actors(), t)
+                action = self.action(state, actors)
                 observation, reward, done, _ = env.perform(action)
                 state = observation
                 episode_reward += reward
-                t += 1
 
                 if render:
                     env.render()
@@ -152,4 +188,4 @@ class NeatAgent(Agent):
                     self.log_episode(episode_reward)
                     break
 
-        return self.scores
+        return self.evaluation()

@@ -13,6 +13,11 @@ class CartPoleEnvironment(Environment):
     def __init__(self, mode='training', monitoring_enabled=False):
         super(CartPoleEnvironment, self).__init__('CartPole-v0', mode, monitoring_enabled)
 
+    def solved(self, scores):
+        if len(scores) < 100:
+            return False
+        return np.mean(scores[-99:]) >= self.reward_threshold
+
 
 class LunarLanderEnvironment(Environment):
 
@@ -35,12 +40,6 @@ class MountainCarEnvironment(Environment):
         if len(scores) < 100:
             return False
         return np.mean(scores[-99:]) >= self.reward_threshold
-
-
-class Go9x9Environment(Environment):
-
-    def __init__(self, mode='training', monitoring_enabled=False):
-        super(Go9x9Environment, self).__init__('Go9x9-v0', mode, monitoring_enabled)
 
 
 class InvertedDoublePendulumEnvironment(Environment):

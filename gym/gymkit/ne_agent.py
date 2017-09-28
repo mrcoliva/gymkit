@@ -6,6 +6,12 @@ from gymkit.environment import Environment
 from gymkit.evaluation import Evaluation
 
 
+def variance(values: [float]):
+    mean = np.mean(values)
+    values = list(map(lambda x: np.square(x - mean), values))
+    return np.sum(values) / len(values)
+
+
 class NeatAgent(Agent):
 
     def __init__(self, id='NeatAgent', elite_size=3, test_episodes=1, verbose=False):
@@ -97,14 +103,7 @@ class NeatAgent(Agent):
                     scores.append(e_score)
                     break
 
-        return np.mean(scores)  # - (NeatAgent.variance(scores) / 2)
-
-
-    @staticmethod
-    def variance(values: [float]):
-        mean = np.mean(values)
-        values = list(map(lambda x: np.square(x - mean), values))
-        return np.sum(values) / len(values)
+        return np.mean(scores)
 
 
     def evolve(self, generations: int = 1):
@@ -148,6 +147,9 @@ class NeatAgent(Agent):
 
     @property
     def actors(self) -> [FeedForwardNetwork]:
+        """
+        Returns the agent's actor networks.
+        """
         return self.fittest_networks(self.elite_size)
 
 

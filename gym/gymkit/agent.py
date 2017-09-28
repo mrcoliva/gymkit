@@ -6,6 +6,7 @@ class Agent(object):
     def __init__(self, id='UnnamedAgent'):
         self.id = id
 
+
     @staticmethod
     def epsilon(t: int, max: float=1, min: float=0.02, max_t: int=10000) -> float:
         """

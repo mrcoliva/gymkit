@@ -71,9 +71,7 @@ class Visualizer(object):
         for i in range(len(solved)): solved[i] = 2000 if solved[i] == 0 else solved[i]
 
         plt.plot(np.mean(runtimes, axis=0))
-
         plt.plot(reward_threshold, label='Reward Threshold', linestyle='--', alpha=.3, color='#101010')
-
         plt.plot(mean_scores, label='Actual Scores', alpha=1.0, color='#FF5F5E')
         plt.plot(mean_q_values, label='Estimated Action-Values (Q-values)', alpha=1.0, color='#626262')
 

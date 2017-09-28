@@ -1,8 +1,24 @@
 # GymKit for OpenAI Gym
 
-This repository is used as a playground to experiment with OpenAI Gym for the bachelor's thesis.
+This repository is used as a playground to experiment with OpenAI Gym for my bachelor's thesis.
 
 All of my source files are contained in the `gymkit` module (except `main.py`).
+
+
+## Requirements
+GymKit requires Python >= 3.6 and the following dependencies installed:
+
+- matplotlib
+- neat
+- baselines
+- tensorflow
+- keras
+- numpy>=1.10.4
+- requests>=2.0
+- six
+- pyglet>=1.2.0
+- scipy==0.17.1
+
 
 
 ## Usage
@@ -25,8 +41,8 @@ In this example, we create a `NeatAgent` which uses the 'Neuroevolution of Augme
 
 *Note: `elite-size` specifies the number of fittest phenotypes which will have a vote on the decision. E.g. an `elite-size` of 1 would result in a single neural network's output to be used as the decision critieria.*
 ```python
-agent = NeatAgent(elite_size=3)
-arena.register(agent)
+agent = NeatAgent(elite_size=1)
+arena.register([agent])
 ```
   
   
